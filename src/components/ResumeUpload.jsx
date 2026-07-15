@@ -10,74 +10,75 @@ function ResumeUpload({ onFileUpload, uploadedFile }) {
       "application/pdf": [".pdf"],
     },
     multiple: false,
-onDrop: async (acceptedFiles) => {
-  if (acceptedFiles.length === 0) return;
 
-  const file = acceptedFiles[0];
+    onDrop: async (acceptedFiles) => {
+      if (acceptedFiles.length === 0) return;
 
-  const arrayBuffer = await file.arrayBuffer();
+      const file = acceptedFiles[0];
 
-  const pdf = await pdfjsLib.getDocument({
-    data: arrayBuffer,
-  }).promise;
+      try {
+        const arrayBuffer = await file.arrayBuffer();
 
-  let text = "";
+        const pdf = await pdfjsLib.getDocument({
+          data: arrayBuffer,
+        }).promise;
 
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
+        let text = "";
 
-    const content = await page.getTextContent();
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
 
-    text +=
-      content.items
-        .map((item) => item.str)
-        .join(" ") + "\n";
-  }
+          const content = await page.getTextContent();
 
-  console.log("Resume Text:");
-  console.log(text);
+          text +=
+            content.items.map((item) => item.str).join(" ") + "\n";
+        }
 
-  onFileUpload({
-    file,
-    text,
+        onFileUpload({
+          file,
+          text,
+        });
+      } catch (error) {
+        console.error("PDF Parsing Error:", error);
+        alert("Unable to read the PDF. Please upload another file.");
+      }
+    },
   });
-},
-  });
 
-return (
-  <div className="w-full">
+  return (
+    <div className="w-full">
+      <div
+        {...getRootProps()}
+        className="mt-6 cursor-pointer rounded-xl border-2 border-dashed border-gray-300 p-8 text-center transition-all duration-300 hover:border-indigo-500 hover:bg-indigo-50"
+      >
+        <input {...getInputProps()} />
 
-    <div
-      {...getRootProps()}
-      className="border-2 border-dashed border-gray-400 rounded-lg p-6 mt-4 text-center cursor-pointer"
-    >
-      <input {...getInputProps()} />
-
-      <p>📄 Drag & Drop Resume PDF here</p>
-
-      <p className="text-sm text-gray-500">
-        or click to upload
-      </p>
-    </div>
-
-    {uploadedFile && (
-      <div className="mt-4 p-4 bg-green-100 border border-green-400 rounded-lg">
-        <p className="font-semibold text-green-700">
-          ✅ Resume Uploaded Successfully
+        <p className="text-lg font-medium text-gray-700">
+          📄 Upload Resume
         </p>
 
-        <p className="text-gray-700">
-          {uploadedFile.file.name}
-        </p>
-
-        <p className="text-sm text-gray-500">
-          {(uploadedFile.file.size / 1024).toFixed(2)} KB
+        <p className="mt-2 text-sm text-gray-500">
+          Drag & Drop your PDF here or click to browse
         </p>
       </div>
-    )}
 
-  </div>
-);
+      {uploadedFile && (
+        <div className="mt-4 rounded-xl border border-green-300 bg-green-50 p-4">
+          <p className="font-semibold text-green-700">
+            ✅ Resume Uploaded Successfully
+          </p>
+
+          <p className="mt-1 break-all text-gray-700">
+            {uploadedFile.file.name}
+          </p>
+
+          <p className="mt-1 text-sm text-gray-500">
+            {(uploadedFile.file.size / 1024).toFixed(2)} KB
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default ResumeUpload;
