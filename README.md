@@ -22,13 +22,11 @@ The AI Cover Letter Generator is a React-based web application that creates pers
 ## How It Works
 1. Enter your name, job role, target company, and skills.
 <img width="1342" height="688" alt="Image" src="https://github.com/user-attachments/assets/cbee8db4-5618-4782-b4fd-ad8b59e6b6db" />
-2. Upload your resume (PDF).
-3. Click **Generate Cover Letter**.
+2. Upload your resume (PDF), Click **Generate Cover Letter**.
 <img width="1047" height="694" alt="Image" src="https://github.com/user-attachments/assets/234eb2cd-6775-4ead-8f8f-d27407b8969b" />
-4. The application extracts resume text, sends the information to Gemini AI, and generates a personalized cover letter.
-5. Copy the generated cover letter with a single click.
+3. The application extracts resume text, sends the information to Gemini AI, and generates a personalized cover letter, Copy the generated cover letter with a single click.
 <img width="1041" height="716" alt="Image" src="https://github.com/user-attachments/assets/7499db8f-204b-45c4-b606-d2d1a444b843" />
-
+<img width="1149" height="681" alt="Image" src="https://github.com/user-attachments/assets/af2536f3-de51-4c39-8d9d-c115b324a80e" />
 
 
 
